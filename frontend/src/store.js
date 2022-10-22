@@ -5,10 +5,14 @@ import {
 } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk' // I still add this for my reference so I know thunk middleware is added
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { productListReducer } from './reducers/productReducers'
+import {
+  productListReducer,
+  productDetailsReducer,
+} from './reducers/productReducers'
 
 const reducer = combineReducers({
   productList: productListReducer,
+  productDetail: productDetailsReducer,
 })
 
 const initialState = {}
