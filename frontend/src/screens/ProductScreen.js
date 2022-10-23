@@ -8,10 +8,9 @@ import Loader from '../components/Loader'
 import { listProductDetails } from '../actions/productActions'
 
 const ProductScreen = () => {
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
   const params = useParams()
   const id = params.id
-  const quantity = params.quantity
   const dispatch = useDispatch()
   const productDetails = useSelector((state) => state.productDetail)
   const { loading, error, product } = productDetails
