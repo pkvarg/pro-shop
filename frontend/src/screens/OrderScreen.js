@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -8,7 +8,6 @@ import { getOrderDetails } from '../actions/orderActions'
 
 const OrderScreen = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const params = useParams()
   const orderId = params.id
 
