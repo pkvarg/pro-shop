@@ -35,6 +35,8 @@ const orderSchema = mongoose.Schema(
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
+      address: { type: Object },
+      name: { type: Object },
     },
     taxPrice: {
       type: Number,
