@@ -88,8 +88,8 @@ const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id })
   res.json(orders)
 
-  const updatedOrder = await order.save()
-  res.json(updatedOrder)
+  // const updatedOrder = await order.save()
+  // res.json(updatedOrder)
 })
 
 export { addOrderItems, getOrderByid, updateOrderToPaid, getMyOrders }
