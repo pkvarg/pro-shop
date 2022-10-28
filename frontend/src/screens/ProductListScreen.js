@@ -4,7 +4,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts } from '../actions/productActions'
+import { listProducts, deleteProduct } from '../actions/productActions'
 import { useNavigate } from 'react-router-dom'
 
 const ProductListScreen = () => {
@@ -12,6 +12,13 @@ const ProductListScreen = () => {
   const navigate = useNavigate()
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
+
+  const productDelete = useSelector((state) => state.productDelete)
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -22,11 +29,11 @@ const ProductListScreen = () => {
     } else {
       navigate('/login')
     }
-  }, [dispatch, userInfo, navigate])
+  }, [dispatch, userInfo, navigate, successDelete])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
-      // products   ... dispatch(deleteUser(id))
+      dispatch(deleteProduct(id))
     }
   }
 
@@ -39,13 +46,14 @@ const ProductListScreen = () => {
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='text-right'>
+        <Col className='text-end'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i> Create Product
           </Button>
         </Col>
       </Row>
-      <h1>users</h1>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message varinat='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
