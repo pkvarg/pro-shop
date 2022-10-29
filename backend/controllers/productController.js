@@ -57,7 +57,7 @@ const createProduct = asyncHandler(async (req, res) => {
   })
 
   const createdProduct = await product.save()
-  res.status(201).json(product)
+  res.status(201).json(createdProduct)
 })
 
 // @desc Update a product
@@ -75,12 +75,19 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.brand = brand
     product.category = category
     product.countInStock = countInStock
+
+    const updatedProduct = await product.save()
+    res.json(updateProduct)
   } else {
     res.status(404)
     throw new Error('Product not found')
   }
-  const createdProduct = await product.save()
-  res.status(201).json(product)
 })
 
-export { getProducts, getProductById, deleteProduct }
+export {
+  getProducts,
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+}
