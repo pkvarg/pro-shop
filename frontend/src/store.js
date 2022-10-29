@@ -26,7 +26,7 @@ import {
 
 const reducer = combineReducers({
   productList: productListReducer,
-  productDetail: productDetailsReducer,
+  productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
   cart: cartReducer,

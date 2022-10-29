@@ -12,7 +12,7 @@ const ProductScreen = () => {
   const params = useParams()
   const id = params.id
   const dispatch = useDispatch()
-  const productDetails = useSelector((state) => state.productDetail)
+  const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
   useEffect(() => {
