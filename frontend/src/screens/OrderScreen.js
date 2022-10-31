@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
   Button,
   Row,
@@ -14,12 +14,15 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { getOrderDetails, payOrder, deleteOrder } from '../actions/orderActions'
+import { getUserDetails } from '../actions/userActions'
+
 import { ORDER_PAY_RESET } from '../constants/orderConstants'
 
 const OrderScreen = () => {
   const dispatch = useDispatch()
   const params = useParams()
+  const navigate = useNavigate()
   const orderId = params.id
 
   const [sdkReady, setSdkready] = useState(false)
@@ -29,6 +32,22 @@ const OrderScreen = () => {
 
   const orderPay = useSelector((state) => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const userDetails = useSelector((state) => state.userDetails)
+  const { loading: userLoading, error: userError, user } = userDetails
+
+  const orderDelete = useSelector((state) => state.orderDelete)
+  const { success: successDelete } = orderDelete
+
+  const deleteOrderHandler = (id) => {
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteOrder(id))
+      navigate('/admin/orderlist')
+    }
+  }
 
   if (!loading) {
     // Calculate Prices
@@ -63,7 +82,9 @@ const OrderScreen = () => {
         setSdkready(true)
       }
     }
-  }, [dispatch, order, orderId, successPay])
+  }, [dispatch, user, userInfo, order, orderId, successPay, successDelete])
+
+  console.log(userInfo.isAdmin)
   //   if (!order || order._id !== orderId) {
   //     dispatch(getOrderDetails(orderId))
   //   }
@@ -115,9 +136,29 @@ const OrderScreen = () => {
               {order.isPaid ? (
                 <Message variant='success'>Paid On {order.paidAt}</Message>
               ) : (
-                <Message variant='danger'>Not Paid</Message>
+                <>
+                  <Message variant='danger'>Not Paid</Message>
+                  {userInfo.isAdmin === true && (
+                    <Button
+                      variant='danger'
+                      className='w-100'
+                      onClick={() => deleteOrderHandler(order._id)}
+                    >
+                      Delete order
+                    </Button>
+                  )}
+                </>
               )}
             </ListGroup.Item>
+
+            {/* {userInfo.isAdmin === true && (
+              <Button
+                variant='danger'
+                onClick={() => deleteOrderHandler(order._id)}
+              >
+                Delete order
+              </Button>
+            )} */}
 
             <ListGroup.Item>
               <h2>Order Items: </h2>
