@@ -209,7 +209,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* {order.paymentMethod === 'PayPal' && !order.isPaid && (
+              {!order.isPaid && order.paymentMethod !== 'Cash' && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -220,10 +220,8 @@ const OrderScreen = () => {
                       onSuccess={successPaymentHandler}
                     />
                   )}
-                </ListGroup.Item>
-              )} */}
 
-              {!order.isPaid && (
+                  {/* {!order.isPaid &&  (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -233,7 +231,7 @@ const OrderScreen = () => {
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
-                  )}
+                  )} */}
                 </ListGroup.Item>
               )}
             </ListGroup>
