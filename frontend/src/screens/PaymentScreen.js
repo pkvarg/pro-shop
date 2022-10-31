@@ -16,6 +16,7 @@ const PaymentScreen = () => {
   }
 
   const [paymentMethod, setPaymentMethod] = useState('PayPal')
+
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
@@ -41,14 +42,14 @@ const PaymentScreen = () => {
               checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
-            {/* <Form.Check
+            <Form.Check
               type='radio'
-              label='Stripe'
-              id='Stripe'
+              label='Cash'
+              id='Cash'
               name='paymentMethod'
-              value='Stripe'
+              value='Cash'
               onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check> */}
+            ></Form.Check>
           </Col>
         </Form.Group>
         <Button type='submit' variant='primary' className='my-3'>

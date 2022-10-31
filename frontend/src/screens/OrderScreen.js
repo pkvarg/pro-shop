@@ -72,7 +72,7 @@ const OrderScreen = () => {
       document.body.appendChild(script)
     }
 
-    if (!order || successPay) {
+    if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(orderId))
     } else if (!order.isPaid) {
@@ -84,11 +84,6 @@ const OrderScreen = () => {
     }
   }, [dispatch, user, userInfo, order, orderId, successPay, successDelete])
 
-  console.log(userInfo.isAdmin)
-  //   if (!order || order._id !== orderId) {
-  //     dispatch(getOrderDetails(orderId))
-  //   }
-  // }, [dispatch, order, orderId])
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
@@ -136,9 +131,9 @@ const OrderScreen = () => {
               {order.isPaid ? (
                 <Message variant='success'>Paid On {order.paidAt}</Message>
               ) : (
-                <>
-                  <Message variant='danger'>Not Paid</Message>
-                  {userInfo.isAdmin === true && (
+                <Message variant='danger'>
+                  Not Paid
+                  {userInfo.isAdmin && (
                     <Button
                       variant='danger'
                       className='w-100'
@@ -147,18 +142,9 @@ const OrderScreen = () => {
                       Delete order
                     </Button>
                   )}
-                </>
+                </Message>
               )}
             </ListGroup.Item>
-
-            {/* {userInfo.isAdmin === true && (
-              <Button
-                variant='danger'
-                onClick={() => deleteOrderHandler(order._id)}
-              >
-                Delete order
-              </Button>
-            )} */}
 
             <ListGroup.Item>
               <h2>Order Items: </h2>
@@ -223,6 +209,20 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {/* {order.paymentMethod === 'PayPal' && !order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  {!sdkReady ? (
+                    <Loader />
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )}
+                </ListGroup.Item>
+              )} */}
+
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
