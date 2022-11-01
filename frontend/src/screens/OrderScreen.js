@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   Button,
   Row,
@@ -24,6 +24,7 @@ import {
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
+  ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
 
 const OrderScreen = () => {
@@ -105,6 +106,7 @@ const OrderScreen = () => {
     successPay,
     successDelete,
     successDeliver,
+    navigate,
   ])
 
   const successPaymentHandler = (paymentResult) => {
@@ -114,6 +116,14 @@ const OrderScreen = () => {
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order))
+  }
+
+  const newOrderHandler = () => {
+    localStorage.removeItem('cartItems')
+    localStorage.removeItem('shippingAddress')
+    localStorage.removeItem('paymentMethod')
+    dispatch({ type: ORDER_LIST_MY_RESET })
+    document.location.href = '/'
   }
 
   return loading ? (
@@ -237,7 +247,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && order.paymentMethod !== 'Cash' && (
+              {!order.isPaid && order.paymentMethod === 'PayPal' && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -265,6 +275,15 @@ const OrderScreen = () => {
                     </Button>
                   </ListGroup.Item>
                 )}
+              <ListGroup.Item>
+                <Button
+                  variant='success'
+                  className='w-100'
+                  onClick={() => newOrderHandler()}
+                >
+                  Create New Order
+                </Button>
+              </ListGroup.Item>
             </ListGroup>
           </Card>
         </Col>
