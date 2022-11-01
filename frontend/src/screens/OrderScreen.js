@@ -94,6 +94,7 @@ const OrderScreen = () => {
     successDelete,
     successDeliver,
     navigate,
+    userInfo,
   ])
 
   // useEffect(() => {
