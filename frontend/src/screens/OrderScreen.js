@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
@@ -9,7 +9,7 @@ import {
   ListGroup,
   Image,
   Card,
-  ListGroupItem,
+  // ListGroupItem,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -19,7 +19,7 @@ import {
   payOrder,
   deleteOrder,
   deliverOrder,
-  createOrder,
+  // createOrder,
 } from '../actions/orderActions'
 
 import {
@@ -35,7 +35,7 @@ const OrderScreen = () => {
   const orderId = params.id
   const [{ isPending, isResolved, isRejected }] = usePayPalScriptReducer()
 
-  const [sdkReady, setSdkready] = useState(false)
+  // const [sdkReady, setSdkready] = useState(false)
 
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
@@ -50,7 +50,7 @@ const OrderScreen = () => {
   const { userInfo } = userLogin
 
   const userDetails = useSelector((state) => state.userDetails)
-  const { loading: userLoading, error: userError, user } = userDetails
+  // const {  user } = userDetails
 
   const orderDelete = useSelector((state) => state.orderDelete)
   const { success: successDelete } = orderDelete

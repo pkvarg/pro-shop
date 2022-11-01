@@ -11,7 +11,7 @@ import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
 const HomeScreen = () => {
   const params = useParams()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const keyword = params.keyword

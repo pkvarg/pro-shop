@@ -22,7 +22,7 @@ const RegisterScreen = () => {
   const userRegister = useSelector((state) => state.userRegister)
   const { loading, error, userInfo } = userRegister
   const location = useLocation()
-  const { search } = useLocation()
+  // const { search } = useLocation()
   const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
     if (userInfo) {
