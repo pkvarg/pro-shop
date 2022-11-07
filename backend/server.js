@@ -1,6 +1,7 @@
 import path from 'path'
 import express from 'express'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import colors from 'colors'
@@ -46,6 +47,13 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(notFound)
 app.use(errorHandler)
+// RENDER
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://pictusweb-mern.onrender.com'],
+  })
+)
 
 const PORT = process.env.PORT || 5000
 app.listen(
