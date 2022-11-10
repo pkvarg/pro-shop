@@ -21,10 +21,10 @@ const Header = () => {
             <Navbar.Brand>ProShop</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
+          <Navbar.Collapse className='mob-my' id='basic-navbar-nav'>
             <SearchBox />
 
-            <Nav className='ml-auto'>
+            <Nav className='mob-my ml-auto'>
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i> Cart

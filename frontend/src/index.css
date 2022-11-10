@@ -50,4 +50,7 @@ h2 {
   .carousel-caption h2 {
     font-size: 2.5vw;
   }
+  .mob-my {
+    margin-top: 25px;
+  }
 }
