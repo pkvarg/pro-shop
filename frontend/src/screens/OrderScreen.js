@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 // import axios from 'axios'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -49,7 +49,7 @@ const OrderScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const userDetails = useSelector((state) => state.userDetails)
+  // const userDetails = useSelector((state) => state.userDetails)
   // const {  user } = userDetails
 
   const orderDelete = useSelector((state) => state.orderDelete)

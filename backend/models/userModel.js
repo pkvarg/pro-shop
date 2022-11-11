@@ -14,12 +14,18 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      //required: true,
     },
     isAdmin: {
       type: Boolean,
       required: true,
       default: false,
+    },
+    googleId: {
+      type: String,
+    },
+    image: {
+      type: String,
     },
   },
   {
