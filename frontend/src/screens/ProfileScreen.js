@@ -27,14 +27,19 @@ const ProfileScreen = () => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
   const { success } = userUpdateProfile
 
-  // const location = useLocation()
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  let { userInfo2 } = userLoginGoogle
+
   // const { search } = useLocation()
 
   const orderListMy = useSelector((state) => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
   useEffect(() => {
+    // google
+    userInfo2 = userInfo
     if (!userInfo) {
+      // google
       navigate('/login')
     } else {
       if (!user || !user.name || success) {

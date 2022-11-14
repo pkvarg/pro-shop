@@ -69,15 +69,7 @@ const LoginScreen = () => {
   const handleLogin = async (googleData) => {
     const googleId = googleData.googleId
     const tokenId = googleData.tokenId
-    // console.log('Google:', googleId)
-    //console.log(googleData)
-    // e.preventDefault()
     dispatch(loginGoogle(googleData))
-
-    // localStorage.setItem('loginData', JSON.stringify(data))
-    // console.log(data)
-    // // log in ??
-    // localStorage.setItem('userLGInfo', JSON.stringify(data))
   }
 
   const handleLogout = () => {
