@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FC'
-import { login } from '../actions/userActions'
+import { login, loginGoogle } from '../actions/userActions'
 import GoogleLogin from 'react-google-login'
 import { gapi } from 'gapi-script'
 
@@ -14,11 +14,18 @@ const LoginScreen = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
 
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { loading, error, userInfo } = userLogin
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  const {
+    loading: userLGLoading,
+    error: userLGError,
+    userLGInfo,
+  } = userLoginGoogle
   const location = useLocation()
   // const { search } = useLocation()
   const [loginData, setLoginData] = useState(
@@ -60,22 +67,17 @@ const LoginScreen = () => {
   }
 
   const handleLogin = async (googleData) => {
-    const res = await fetch('/api/google-login', {
-      method: 'POST',
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    const googleId = googleData.googleId
+    const tokenId = googleData.tokenId
+    // console.log('Google:', googleId)
+    //console.log(googleData)
+    // e.preventDefault()
+    dispatch(loginGoogle(googleData))
 
-    const data = await res.json()
-    setLoginData(data)
-    localStorage.setItem('loginData', JSON.stringify(data))
-    console.log(data)
-    // log in ??
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    // localStorage.setItem('loginData', JSON.stringify(data))
+    // console.log(data)
+    // // log in ??
+    // localStorage.setItem('userLGInfo', JSON.stringify(data))
   }
 
   const handleLogout = () => {

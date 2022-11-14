@@ -23,6 +23,24 @@ const authUser = asyncHandler(async (req, res) => {
   }
 })
 
+// GoogleAuth
+// @desc Auth user & get token
+// @desc POST /api/users/loginGoogle
+// @access Public
+
+const authUserGoogle = asyncHandler(async (req, res) => {
+  const { name, email, googleId } = req.body
+  const user = await User.findOne({ email })
+  console.log(name, email, googleId)
+  res.json({
+    googleId: user.googleId,
+    name: user.name,
+    email: user.email,
+    // isAdmin: user.isAdmin,
+    // token: generateToken(user.googleId),
+  })
+})
+
 // @descRegister a new user
 // @desc POST /api/users/
 // @access Public
@@ -167,6 +185,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  authUserGoogle,
   registerUser,
   getUserProfile,
   updateUserProfile,
