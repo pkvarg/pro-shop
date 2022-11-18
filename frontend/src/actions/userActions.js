@@ -27,49 +27,6 @@ import {
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
-// GoogleLogin
-export const loginGoogle = (googleData) => async (dispatch) => {
-  try {
-    dispatch({
-      type: USER_LOGIN_REQUEST,
-    })
-
-    const googleId = googleData.googleId
-    const name = googleData.wt.Ad
-    const email = googleData.wt.cu
-    const tokenG = googleData.tokenId
-    console.log(name, email, googleId, tokenG)
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    const { data } = await axios.post(
-      '/api/users/loginGoogle',
-      { name, email, googleId, tokenG },
-      config
-    )
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    })
-    // localStorage.setItem('loginData', JSON.stringify(data))
-
-    localStorage.setItem('userInfo', JSON.stringify(data))
-  } catch (error) {
-    dispatch({
-      type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
-  }
-}
-
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -105,13 +62,40 @@ export const login = (email, password) => async (dispatch) => {
   }
 }
 
+export const getGoogleUserInfo = (dataInfo) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: USER_LOGIN_REQUEST })
+
+      // const { data } = await axios.get('/api/auth/currentuser')
+      const { data } = await axios.post('/api/auth/currentuser', { dataInfo })
+      // if (!data) {
+      //   dispatch({ type: USER_LOGIN_SUCCESS, payload: dataInfo })
+      // }
+
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
+
+      // localStorage.setItem('userInfo', JSON.stringify(data))
+      // console.log(data)
+      localStorage.setItem('userInfo', JSON.stringify(dataInfo))
+    } catch (error) {
+      dispatch({
+        type: USER_LOGIN_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
+}
+
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
+  localStorage.removeItem('loginData')
   localStorage.removeItem('cartItems')
   localStorage.removeItem('shippingAddress')
   localStorage.removeItem('paymentMethod')
-  localStorage.removeItem('loginData')
-
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })

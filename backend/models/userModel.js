@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      //required: true,
+      required: false,
     },
     isAdmin: {
       type: Boolean,
@@ -22,12 +22,6 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     googleId: {
-      type: String,
-    },
-    picture: {
-      type: String,
-    },
-    image: {
       type: String,
     },
   },

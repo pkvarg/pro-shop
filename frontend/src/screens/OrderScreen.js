@@ -49,7 +49,7 @@ const OrderScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  // const userDetails = useSelector((state) => state.userDetails)
+  //const userDetails = useSelector((state) => state.userDetails)
   // const {  user } = userDetails
 
   const orderDelete = useSelector((state) => state.orderDelete)

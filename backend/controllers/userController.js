@@ -1,5 +1,4 @@
 import asyncHandler from 'express-async-handler'
-import { token } from 'morgan'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 
@@ -22,24 +21,6 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401)
     throw new Error('Invalid email or password')
   }
-})
-
-// GoogleAuth
-// @desc Auth user & get token
-// @desc POST /api/users/loginGoogle
-// @access Public
-
-const authUserGoogle = asyncHandler(async (req, res) => {
-  const { name, email, googleId, tokenG } = req.body
-  const user = await User.findOne({ email })
-  console.log(name, email, googleId, tokenG)
-  res.json({
-    _id: user.googleId,
-    name: user.name,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    token: tokenG,
-  })
 })
 
 // @descRegister a new user
@@ -186,7 +167,6 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
-  authUserGoogle,
   registerUser,
   getUserProfile,
   updateUserProfile,
