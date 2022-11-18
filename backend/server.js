@@ -16,7 +16,6 @@ import authRoutes from './routes/authRoutes.js'
 dotenv.config()
 connectDB()
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_ID)
-//console.log(process.env.REACT_APP_GOOGLE_ID)
 const app = express()
 
 if (process.env.NODE_ENV === 'development') {
