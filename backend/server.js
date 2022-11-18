@@ -75,7 +75,11 @@ app.use(errorHandler)
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://pictusweb-mern.onrender.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://pictusweb-mern.onrender.com',
+      'https://pictusweb.art',
+    ],
   })
 )
 

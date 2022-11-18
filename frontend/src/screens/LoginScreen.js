@@ -39,6 +39,7 @@ const LoginScreen = () => {
       : null
   )
   useEffect(() => {
+    console.log(process.env.REACT_APP_GOOGLE_ID)
     function start() {
       gapi.client.init({
         clientId: process.env.REACT_APP_GOOGLE_ID,
