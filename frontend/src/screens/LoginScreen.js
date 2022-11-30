@@ -6,9 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FC'
 import { login, getGoogleUserInfo } from '../actions/userActions'
-import GoogleLogin from 'react-google-login'
-import { gapi } from 'gapi-script'
-
+import jwt_decode from 'jwt-decode'
 const LoginScreen = () => {
   const navigate = useNavigate()
 
@@ -20,7 +18,6 @@ const LoginScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { loading, error, userInfo } = userLogin
   const location = useLocation()
-
   const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
     if (userInfo) {
@@ -33,52 +30,44 @@ const LoginScreen = () => {
     dispatch(login(email, password))
   }
 
-  const [loginData, setLoginData] = useState(
-    localStorage.getItem('loginData')
-      ? JSON.parse(localStorage.getItem('loginData'))
-      : null
-  )
-  useEffect(() => {
-    console.log(process.env.REACT_APP_GOOGLE_ID)
-    function start() {
-      gapi.client.init({
-        clientId: process.env.REACT_APP_GOOGLE_ID,
-        scope: 'email',
-      })
-    }
+  const [user, setUser] = useState({})
 
-    gapi.load('client:auth2', start)
-  }, [])
-
-  const handleFailure = (result) => {
-    console.log(result)
-    alert(result)
-  }
-
-  const handleLogin = async (googleData) => {
-    const res = await fetch('/api/google-login', {
-      method: 'POST',
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    const data = await res.json()
-    setLoginData(data)
-    localStorage.setItem('loginData', JSON.stringify(data))
+  const handleCallbackResponse = (response) => {
+    let userObject = jwt_decode(response.credential)
+    setUser(userObject)
+    document.getElementById('signInDiv').hidden = true
     // G
-    data.googleId = googleData.googleId
-    data.token = googleData.tokenId
-    data.isAdmin = false
+    const data = {
+      name: userObject.name,
+      email: userObject.email,
+      googleId: userObject.sub,
+      //token: response.credential,
+      isAdmin: false,
+    }
+    //console.log(data)
     dispatch(getGoogleUserInfo(data))
   }
-  const handleLogout = () => {
-    localStorage.removeItem('loginData')
-    setLoginData(null)
+
+  const handleSignOut = (event) => {
+    setUser({})
+    localStorage.removeItem('userInfo')
+    document.getElementById('signInDiv').hidden = false
   }
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_GOOGLE_ID,
+      callback: handleCallbackResponse,
+    })
+
+    google.accounts.id.renderButton(document.getElementById('signInDiv'), {
+      theme: 'outline',
+      size: 'large',
+    })
+
+    // google.accounts.id.prompt()
+  })
 
   return (
     <FormContainer>
@@ -109,24 +98,38 @@ const LoginScreen = () => {
           Sign In
         </Button>
 
-        <h1>Google Log in</h1>
-        <div>
-          {loginData ? (
-            <div>
-              <h3>You logged in as {loginData.email}</h3>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          ) : (
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_ID}
-              buttonText={'Log in with Google'}
-              onSuccess={handleLogin}
-              onFailure={handleFailure}
-              cookiePolicy={'single_host_origin'}
-              plugin_name='WebAppProShop'
-            ></GoogleLogin>
-          )}
-        </div>
+        <Row className='py-3'>
+          <Col>
+            <Link
+              to={
+                redirect
+                  ? `/forgot-password?redirect=${redirect}`
+                  : '/forgot-password'
+              }
+            >
+              Forgot password?
+            </Link>
+          </Col>
+        </Row>
+
+        <div id='signInDiv'></div>
+
+        {user && (
+          <div className='my-3'>
+            <img src={user.picture} alt={user.picture}></img>
+            <h3>{user.name}</h3>
+          </div>
+        )}
+
+        {Object.keys(user).length !== 0 && (
+          <Button
+            className='my-1'
+            variant='primary'
+            onClick={(e) => handleSignOut(e)}
+          >
+            Google Sign Out
+          </Button>
+        )}
       </Form>
 
       <Row className='py-3'>

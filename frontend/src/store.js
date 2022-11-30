@@ -12,12 +12,14 @@ import {
 import { cartReducer } from './reducers/cartReducers'
 import {
   userLoginReducer,
+  forgotPasswordReducer,
   userRegisterReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  resetPasswordReducer,
 } from './reducers/userReducers'
 
 import {
@@ -40,6 +42,8 @@ const reducer = combineReducers({
   productTopRated: productTopRatedReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
+  forgotPassword: forgotPasswordReducer,
+  resetPassword: resetPasswordReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
